@@ -1,0 +1,28 @@
+# Maintainer: Christos Longros <chris.longros@gmail.com>
+_pkgname=leaflet.providers
+_pkgver=3.0.0
+pkgname=r-${_pkgname,,}
+pkgver=${_pkgver//-/.}
+pkgrel=1
+pkgdesc="Default Configurations for Extra Map Tile Providers Used by 'leaflet'"
+arch=(any)
+url="https://cran.r-project.org/package=$_pkgname"
+license=('BSD-2-Clause')
+depends=(
+  r
+  r-htmltools
+)
+optdepends=(
+  r-jsonlite
+  r-v8
+)
+source=("https://cran.r-project.org/src/contrib/${_pkgname}_${_pkgver}.tar.gz")
+md5sums=('1ad3d285a18259618b892a6fccf169bd')
+build() {
+  mkdir build
+  R CMD INSTALL -l build "$_pkgname"
+}
+package() {
+  install -d "$pkgdir/usr/lib/R/library"
+  cp -a --no-preserve=ownership "build/$_pkgname" "$pkgdir/usr/lib/R/library"
+}
